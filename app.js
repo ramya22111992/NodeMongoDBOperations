@@ -3,13 +3,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose=require('mongoose');
 //const cors=require('./routes/cors'); ----->To apply CORS at app level and not route level
 
 var indexRouter = require('./routes/index');
 var commentsRouter = require('./routes/commentsRouter');
-var todosRouter=require('./routes/todosRouter');
 const postRouter = require('./routes/postRouter');
 const userRouter = require('./routes/userRouter');
+const { mongoUrl } = require('./config');
+
+mongoose.connect(mongoUrl).then(response=>{
+console.log("Successfully connected to DB");
+})
+.catch(err=>{
+  console.log(err)
+})
 
 var app = express();
 
@@ -26,7 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/comment', commentsRouter);
-app.use('/todo',todosRouter);
 app.use('/post',postRouter);
 app.use('/user',userRouter);
 
