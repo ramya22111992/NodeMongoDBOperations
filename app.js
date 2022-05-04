@@ -11,6 +11,7 @@ var commentsRouter = require('./routes/commentsRouter');
 const postRouter = require('./routes/postRouter');
 const userRouter = require('./routes/userRouter');
 const { mongoUrl } = require('./config');
+const todoRouter = require('./routes/todoRouter');
 
 mongoose.connect(mongoUrl).then(response=>{
 console.log("Successfully connected to DB");
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/comment', commentsRouter);
 app.use('/post',postRouter);
+app.use('/todo',todoRouter);
 app.use('/user',userRouter);
 
 // catch 404 and forward to error handler

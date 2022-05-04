@@ -70,7 +70,7 @@ const userSchema = new mongoose.Schema({
     posts: [{
         //One to many relationship. 1 user can have many posts.
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Posts'
+        ref: 'Post'
     }]
 
 },

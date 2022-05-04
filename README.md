@@ -2,9 +2,14 @@ This is the flow:
 
 The router file receives the GET/PUT/POST/DELETE http request
 
-The router file will forward the request to the appropriate controller for any post/update/create/delete changes to the DB. These changes will be done via the Models.
+The router file will forward the request to the appropriate controller.
+The controller will perform any DB changes via the service. Controller will call the service method,
+service will do the changes, return response to controller and controller will send the response to client.
 
 The controller will return the success/error response back to the client.
+
+service files ensure method reusability. Dont let the controllers interact with each other.
+controllers must communicate with the service.
 
 Make sure you have data/db directory in C drive.
 

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users'
+        ref: 'User'
     },
     title: {
         type: String,
@@ -19,7 +19,7 @@ comments field will contain an array of ObjectId's from the Comments collection.
     */
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comments'
+        ref: 'Comment'
     }]
 },
     {

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const todoSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users'
+        ref: 'User'
     },
     title: {
         type: String,

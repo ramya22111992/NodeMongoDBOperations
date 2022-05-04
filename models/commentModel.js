@@ -4,7 +4,7 @@ const commentSchema = new mongoose.Schema({
     postId: {
         //postId is required to get all the comments for a post
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Posts'
+        ref: 'Post'
     },
     name: {
         type: String,
