@@ -1,5 +1,6 @@
-const {getPost,savePost}=require('../services/postService');
+const {getPost}=require('../services/postService');
 const {createComment,removeAllCommentsOfPost,removeSingleComment}=require('../services/commentService');
+const {saveDoc}=require('../services/commonService');
 
 
 exports.getPost = (req, res, next) => {
@@ -21,7 +22,7 @@ exports.updatePost = (req, res, next) => {
     if (post) {
       post.title = req.body.title;
       post.body = req.body.body;
-      savePost(post).then(savedPost=>{
+      saveDoc(post).then(savedPost=>{
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json({
           message: `Post ${req.params.postId} updated successfully`,
@@ -44,9 +45,9 @@ exports.createComment = (req, res, next) => {
   let payload = JSON.parse(JSON.stringify(req.body));
   payload.postId = req.params.postId;
   createComment(payload).then(newComment => {
-    post.postModel.findById(req.params.postId).then(post => {
+    getPost(req.params.postId).then(post => {
       post.comments.push(newComment._id);
-      savePost(post).then(savedPost=>{
+      saveDoc(post).then(savedPost=>{
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json({
           message: `Comment created successfully for Post ${req.params.postId}`,
@@ -66,7 +67,7 @@ exports.deleteAllCommentsForAPPost = (req, res, next) => {
     if (deletedComments.n != 0) {
       getPost(req.params.postId).then(post => {
         post.comments = [];
-        savePost(post).then(savedPost=>{
+        saveDoc(post).then(savedPost=>{
           res.setHeader('Content-Type', 'application/json');
           res.status(200).json({
             message: `Deleted all comments for post ${req.params.postId}`,
@@ -112,7 +113,7 @@ exports.deleteSingleComment=(req,res,next)=>{
       if(post){
       let commentToBeDeletedIndex=post.comments.findIndex(x=>x==req.params.commentId);
       post.comments.splice(commentToBeDeletedIndex,1);
-      savePost(post).then(savedPost=>{
+      saveDoc(post).then(savedPost=>{
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json({
           message: `Comment ${req.params.commentId} successfully deleted for Post ${req.params.postId}`,

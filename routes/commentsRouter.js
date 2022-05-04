@@ -1,11 +1,11 @@
 const express = require('express');
-const { getAllCommentsForPost } = require('../controllers/commentsController');
+const { getComment,updateComment } = require('../controllers/commentsController');
 const commentsRouter = express.Router();
 const cors=require('./cors');
 
-// commentsRouter.route('/')
+commentsRouter.route('/:commentId')
 
-// .get(cors.corsWithoutOptions,getAllCommentsForPost)
-
+.get(cors.corsWithoutOptions,getComment)
+.put(cors.corsWithOptions,updateComment);
 
 module.exports = commentsRouter;

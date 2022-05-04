@@ -11,3 +11,8 @@ exports.removeAllCommentsOfPost=(postId)=>{
 exports.removeSingleComment=(commentId)=>{
     return comment.commentModel.findByIdAndRemove(commentId);
 }
+
+exports.getComment=(commentId)=>{
+    return comment.commentModel.findById(commentId);
+}
+

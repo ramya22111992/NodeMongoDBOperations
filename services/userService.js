@@ -19,7 +19,3 @@ exports.deleteUser=(userId)=>{
 exports.deleteAllUsers=()=>{
     return userModel.remove({});
 }
-
-exports.saveUserDocument=(userDoc)=>{
-    return userDoc.save();
-}

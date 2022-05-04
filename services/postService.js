@@ -15,7 +15,3 @@ exports.removeSinglePost=(postId)=>{
 exports.getPost=(postId)=>{
 return post.postModel.findById(postId);
 }
-
-exports.savePost=(postDocument)=>{
-    return postDocument.save();
-}

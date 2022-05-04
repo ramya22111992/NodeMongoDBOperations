@@ -12,10 +12,6 @@ exports.getToDo=(todoId)=>{
     return todo.todoModel.findById(todoId);
 }
 
-exports.saveToDo=(todoDoc)=>{
-    return todoDoc.save();
-}
-
 exports.createToDo=(payload)=>{
     return todo.todoModel.create(payload);
 }
