@@ -15,3 +15,7 @@ exports.getToDo=(todoId)=>{
 exports.createToDo=(payload)=>{
     return todo.todoModel.create(payload);
 }
+
+exports.updateToDo=(todoId,payload)=>{
+return todo.todoModel.updateMany({_id:todoId},payload,{runValidators:true});
+}

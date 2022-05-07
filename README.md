@@ -22,3 +22,19 @@ queries.
 So the connection to the port will be complete once you open mongo.exe
 To connect mongodb with Nodejs, you need to install the driver first via npm
 npm install mongodb
+
+------------------------------------------------------------------------
+findById() will take only the value of the _id field. So you this method on the model if the _id value of the documents of the collection corresponding to this model is known
+
+find() is used for querying any field in the collection and not just _id.
+
+findByIdAndRemove() will also only take _id field value as argument to remove the document corresponding to the provided _id field value
+
+remove() is used querying any field in the collection and then removing all documents that match the query.
+
+updateMany() can be used to update all fields of the document. In case you need to remove single element of the subdocument, in that case this method wont be useful because you need the document beforehand to update the subdocument. In that case go for save() below.
+If you want to remove all elements of the subdocument, in that case updateMany() can be used.
+
+save() is a method used for updating a document.
+
+create() is used to create a new document in the collection. This method internally calls save().

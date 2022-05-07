@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const toDo = require('./todoModel');
+const comment=require('./commentModel');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -72,7 +73,6 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
     }]
-
 },
     {
         timestamps: true

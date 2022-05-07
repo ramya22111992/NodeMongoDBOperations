@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     postId: {
         //postId is required to get all the comments for a post
         type: mongoose.Schema.Types.ObjectId,

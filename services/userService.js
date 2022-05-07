@@ -19,3 +19,7 @@ exports.deleteUser=(userId)=>{
 exports.deleteAllUsers=()=>{
     return userModel.remove({});
 }
+
+exports.updateUser=(userId,payload)=>{
+    return userModel.updateMany({_id:userId},payload,{runValidators:true});
+}
