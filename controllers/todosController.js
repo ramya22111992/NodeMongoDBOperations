@@ -1,7 +1,8 @@
 const todo=require('../models/todoModel');
+const {getToDo}=require('../services/todoService')
 
 exports.getToDo=(req,res,next)=>{
-    todo.todoModel.findById(req.params.todoId).then(todo=>{
+    getToDo(req.params.todoId).then(todo=>{
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json({
           message: `ToDo ${req.params.todoId} retrieved successfully`,

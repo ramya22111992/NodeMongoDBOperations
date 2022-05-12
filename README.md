@@ -32,9 +32,8 @@ findByIdAndRemove() will also only take _id field value as argument to remove th
 
 remove() is used querying any field in the collection and then removing all documents that match the query.
 
-updateMany() can be used to update all fields of the document. In case you need to remove single element of the subdocument, in that case this method wont be useful because you need the document beforehand to update the subdocument. In that case go for save() below.
-If you want to remove all elements of the subdocument, in that case updateMany() can be used.
+updateMany() can be used to update all fields of the document. In some scenarios, you need to update a field which requires the document beforehand. In such cases updateMany() wont work. eg: removing a subdocument from an array of subdocuments. In that case go for save().
 
-save() is a method used for updating a document.
+save() is a method used for updating a document too where updateMany() doesnt serve the purpose.
 
 create() is used to create a new document in the collection. This method internally calls save().

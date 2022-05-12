@@ -3,17 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const mongoose=require('mongoose');
 //const cors=require('./routes/cors'); ----->To apply CORS at app level and not route level
 
 var indexRouter = require('./routes/index');
 var commentsRouter = require('./routes/commentsRouter');
 const postRouter = require('./routes/postRouter');
 const userRouter = require('./routes/userRouter');
-const { mongoUrl } = require('./config');
 const todoRouter = require('./routes/todoRouter');
+const {connectToMongoDB}=require('./db');
 
-mongoose.connect(mongoUrl).then(response=>{
+connectToMongoDB().then(response=>{
 console.log("Successfully connected to DB");
 })
 .catch(err=>{

@@ -1,5 +1,5 @@
 const express=require('express');
-const { getToDo } = require('../controllers/userController');
+const { getToDo } = require('../controllers/todosController');
 const todoRouter=express.Router();
 const cors=require('./cors');
 

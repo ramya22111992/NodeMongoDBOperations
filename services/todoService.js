@@ -1,11 +1,13 @@
 const todo = require('../models/todoModel');
 
-exports.removeAllToDosOfUser=(userId)=>{
-    return todo.todoModel.remove({ userId: userId });
+exports.removeAllToDosOfUser=(userId,session)=>{
+    return session ? todo.todoModel.remove({ "userId": userId }).session(session):
+    todo.todoModel.remove({ userId: userId });
 }
 
-exports.removeSingleToDo=(todoId)=>{
-    return todo.todoModel.findByIdAndRemove(todoId);
+exports.removeSingleToDo=(todoId,session)=>{
+    return session ? todo.todoModel.findByIdAndRemove(todoId).session(session):
+    todo.todoModel.findByIdAndRemove(todoId);
 }
 
 exports.getToDo=(todoId)=>{
@@ -16,6 +18,7 @@ exports.createToDo=(payload)=>{
     return todo.todoModel.create(payload);
 }
 
-exports.updateToDo=(todoId,payload)=>{
-return todo.todoModel.updateMany({_id:todoId},payload,{runValidators:true});
+exports.updateToDo=(todoId,payload,session)=>{
+return session ? todo.todoModel.updateOne({"_id":todoId},{$set:{...payload}},{runValidators:true}).session(session):
+todo.todoModel.findOneAndUpdate({"_id":todoId},{$set:payload},{runValidators:true,context:'query'});
 }
