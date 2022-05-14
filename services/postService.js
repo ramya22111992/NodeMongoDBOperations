@@ -1,17 +1,16 @@
 const post = require('../models/postModel');
 
-exports.createPost = (payload) => {
-    return post.postModel.create(payload);
+
+exports.createPost = (payload,session=null) => {
+    return post.postModel.create([payload],{session});
 }
 
 exports.removeAllPostsOfUser = (userId,session=null) => {
-    return session ? post.postModel.deleteOne({ "userId": userId }).session(session) :
-    post.postModel.deleteOne({ "userId": userId });
+  return post.postModel.remove({ "userId": userId},{session}); //returns the deletedCount
 }
 
 exports.removeSinglePost = (postId,session=null) => {
-    return session ? post.postModel.findByIdAndRemove(postId).session(session):
-    post.postModel.findByIdAndRemove(postId);
+    return post.postModel.remove({"_id":postId},{session}); //retuns the deletedCount
 }
 
 exports.getPost = (postId) => {
@@ -19,6 +18,9 @@ exports.getPost = (postId) => {
 }
 
 exports.updatePost = (postId, payload,session=null) => {
-    return session ? post.postModel.updateOne({"_id": postId },{$set:payload}, { runValidators: true }).session(session):
-    post.postModel.updateOne({ "_id": postId },{$set:payload}, { runValidators: true });
+    return post.postModel.updateOne({"_id": postId },{$set:payload},{session});
+}
+
+exports.updatePostArray=(query,payload,session=null)=>{
+return post.postModel.updateOne(query,payload,{session});
 }

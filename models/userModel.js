@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const toDo = require('./todoModel');
 const comment=require('./commentModel');
+const validator=require('../db');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -78,4 +79,5 @@ const userSchema = new mongoose.Schema({
         timestamps: true
     })
 
+userSchema.plugin(validator.validatorPlugin);
 module.exports = mongoose.model('User', userSchema);

@@ -1,6 +1,5 @@
 const comment = require('../models/commentModel');
 const {getComment,updateComment}=require('../services/commentService');
-const {saveDoc}=require('../services/commonService');
 const {createTransaction}=require('../db');
 
 exports.getComment = (req, res, next) => {

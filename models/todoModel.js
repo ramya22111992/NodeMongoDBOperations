@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator=require('../db');
 
 const todoSchema = mongoose.Schema({
     userId: {
@@ -18,5 +19,6 @@ const todoSchema = mongoose.Schema({
         timestamps: true
     })
 
+todoSchema.plugin(validator.validatorPlugin);
 exports.todoModel = mongoose.model('ToDo', todoSchema);
 exports.todoSchema = todoSchema;

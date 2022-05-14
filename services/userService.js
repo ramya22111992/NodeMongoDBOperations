@@ -1,7 +1,7 @@
 const userModel = require('../models/userModel');
 
-exports.createUser=(payload)=>{
-return userModel.create(payload);
+exports.createUser=(payload,session=null)=>{
+return userModel.create([payload],{session});
 }
 
 exports.getUser=(userId)=>{
@@ -13,20 +13,17 @@ exports.getAllUsers=()=>{
 }
 
 exports.deleteUser=(userId,session=null)=>{
-    return session ? userModel.findByIdAndRemove(userId).session(session):userModel.findByIdAndRemove(userId);
+    return userModel.remove({"_id":userId},{session}); //returns deletedCount
 }
 
 exports.deleteAllUsers=(session=null)=>{
-    return session ? userModel.remove({}).session(session):userModel.remove({});
+    return userModel.remove({},{session});
 }
 
 exports.updateUser=(userId,payload,session=null)=>{
-  console.log(payload)
-    return session ? userModel.updateOne({"_id":userId},{$set:payload},{runValidators:true}).session(session):
-    userModel.updateOne({"_id":userId},{$set:payload},{runValidators:true});
+    return userModel.updateOne({"_id":userId},{$set:payload},{session});
 }
 
 exports.updateUserArray=(query,payload,session=null)=>{
-return session ? userModel.findOneAndUpdate(query,payload,{runValidators:true,context:'query'}).session(session):
-userModel.updateOne(query,payload,{runValidators:true});
+return userModel.updateOne(query,payload,{session});
 }

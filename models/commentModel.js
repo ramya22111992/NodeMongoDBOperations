@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const validator=require('../db');
+
 
 const commentSchema = new mongoose.Schema({
     userId: {
@@ -33,6 +35,6 @@ const commentSchema = new mongoose.Schema({
     {
         timestamps: true
     })
-
+commentSchema.plugin(validator.validatorPlugin);
 exports.commentModel = mongoose.model('Comment', commentSchema);
 exports.commentSchema = commentSchema;

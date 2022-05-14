@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const validator=require('../db');
+
 
 const postSchema = new mongoose.Schema({
     userId: {
@@ -25,6 +27,6 @@ comments field will contain an array of ObjectId's from the Comments collection.
     {
         timestamps: true
     })
-
+postSchema.plugin(validator.validatorPlugin);
 exports.postModel = mongoose.model('Post', postSchema);
 exports.postSchema = postSchema;
