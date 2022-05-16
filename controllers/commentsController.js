@@ -3,7 +3,8 @@ const {getComment,updateComment}=require('../services/commentService');
 const {createTransaction}=require('../db');
 
 exports.getComment = (req, res, next) => {
-    getComment(req.params.commentId).then(comment => {
+  const opts={};
+    getComment(req.params.commentId,opts).then(comment => {
             res.setHeader('Content-Type', 'application/json');
             res.status(200).json({
                 message: `Comment ${req.params.commentId} retrieved successfully`,
@@ -14,7 +15,8 @@ exports.getComment = (req, res, next) => {
 }
 
 exports.updateComment = (req, res, next) => {
-    updateComment(req.params.commentId,req.body).then(savedComment=>{
+  const opts={};
+    updateComment(req.params.commentId,req.body,opts).then(savedComment=>{
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json({
             message: `Comment ${req.params.commentId} updated successfully`,

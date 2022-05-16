@@ -1,29 +1,25 @@
 const userModel = require('../models/userModel');
 
-exports.createUser=(payload,session=null)=>{
-return userModel.create([payload],{session});
+exports.createUser=(payload,opts)=>{
+return userModel.create([payload],opts);
 }
 
-exports.getUser=(userId)=>{
-    return userModel.findById(userId);
+exports.getUser=(userId,opts)=>{
+    return userModel.findById(userId,opts);
 }
 
-exports.getAllUsers=()=>{
-    return userModel.find({});
+exports.getAllUsers=(opts)=>{
+    return userModel.find({},opts);
 }
 
-exports.deleteUser=(userId,session=null)=>{
-    return userModel.remove({"_id":userId},{session}); //returns deletedCount
+exports.deleteUser=(userId,opts)=>{
+    return userModel.remove({"_id":userId},opts); //returns deletedCount
 }
 
-exports.deleteAllUsers=(session=null)=>{
-    return userModel.remove({},{session});
+exports.updateUser=(userId,payload,opts)=>{
+    return userModel.updateOne({"_id":userId},{$set:payload},opts);
 }
 
-exports.updateUser=(userId,payload,session=null)=>{
-    return userModel.updateOne({"_id":userId},{$set:payload},{session});
-}
-
-exports.updateUserArray=(query,payload,session=null)=>{
-return userModel.updateOne(query,payload,{session});
+exports.updateUserArray=(query,payload,opts)=>{
+return userModel.updateOne(query,payload,opts);
 }

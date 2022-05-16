@@ -3,7 +3,10 @@ const {transactionOptions}=require('./config');
 const {mongoose}=require('mongoose');
 
 exports.connectToMongoDB=()=>{
-  return mongoose.connect(mongoUrl);
+  return mongoose.connect(mongoUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
 }
 
 function setRunValidators(){
@@ -17,7 +20,7 @@ exports.validatorPlugin=(schema)=>{
   //create method will do the validation by default.
 }
 
-exports.createTransaction=async(callback)=>{
+/*exports.createTransaction=async(callback)=>{
   let result;
   let session;
   try{
@@ -31,4 +34,15 @@ exports.createTransaction=async(callback)=>{
     console.log("Some error in outer catch block",e);
     throw e;
   }
+}*/
+
+exports.executeTransaction=async(callback)=>{
+  try{
+  let session=await mongoose.startSession();
+  await callback(session);
+}
+catch(e){
+  console.log("Some error while starting transaction session",e);
+  throw e; //this error will caught in the outer catch block of the controller method.
+}
 }

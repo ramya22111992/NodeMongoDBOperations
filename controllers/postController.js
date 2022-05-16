@@ -1,12 +1,12 @@
 const { getPost, updatePost,updatePostArray } = require('../services/postService');
 const { removeSingleComment } = require('../services/commentService');
-const {createTransaction}=require('../db');
+const {executeTransaction}=require('../db');
 const { executeTasksInSequence,executeTasksInParallel } = require('../utility');
 
 
 exports.getSinglePost = (req, res, next) => {
-
-  getPost(req.params.postId).then(post => {
+  const opts={};
+  getPost(req.params.postId,opts).then(post => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json({
       message: `Post ${req.params.postId} retrieved successfully`,
@@ -18,7 +18,8 @@ exports.getSinglePost = (req, res, next) => {
 }
 
 exports.updatePost =(req, res, next) => {
-  updatePost(req.params.postId, req.body).then(result=>{
+  const opts={};
+  updatePost(req.params.postId, req.body,opts).then(result=>{
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json({
       message: `Post ${req.params.postId} updated successfully`,
@@ -30,11 +31,13 @@ exports.updatePost =(req, res, next) => {
 
 exports.deleteSingleComment = async(req, res, next) => {
   try{
-    await createTransaction(async(session)=>{
+    await executeTransaction(async(session)=>{
       try{
+        session.startTransaction();
+        const opts = { session };
         let result=await executeTasksInSequence([
-          removeSingleComment(req.params.commentId,session),
-          updatePostArray({"_id":req.params.postId},{$pull:{"comments":req.params.commentId}})
+          removeSingleComment(req.params.commentId,opts),
+          updatePostArray({"_id":req.params.postId},{$pull:{"comments":req.params.commentId}},opts)
         ]);
         const [comment,post]=result;
         if(comment.deletedCount<1 || post.modifiedCount<1){
@@ -42,6 +45,7 @@ exports.deleteSingleComment = async(req, res, next) => {
           throw err;
         }
         else{
+          await session.commitTransaction();
           res.setHeader('Content-Type', 'application/json');
           res.status(200).json({
             message: `Comment ${req.params.commentId} successfully deleted for Post ${req.params.postId}`,
