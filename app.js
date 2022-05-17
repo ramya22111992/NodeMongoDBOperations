@@ -16,7 +16,7 @@ connectToMongoDB().then(response=>{
 console.log("Successfully connected to DB");
 })
 .catch(err=>{
-  console.log(err)
+  console.log(err);
 })
 
 var app = express();

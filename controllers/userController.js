@@ -57,7 +57,7 @@ exports.deleteUser = async(req, res, next) => {
   try{
     await executeTransaction(async(session)=>{
       try{
-        session.startTransaction();
+        //session.startTransaction();
         const opts = { session };
         let user=await getUser(req.params.userId,opts);
         if(user){
@@ -98,7 +98,7 @@ exports.deleteUser = async(req, res, next) => {
     try{
       await executeTransaction(async(session)=>{
         try{
-          session.startTransaction();
+          //session.startTransaction();
           const opts = { session };
           let result=await executeTasksInSequence([
             removeAllToDosOfUser(req.params.userId,opts),
@@ -136,7 +136,7 @@ exports.deleteUser = async(req, res, next) => {
     try{
       await executeTransaction(async(session)=>{
         try{
-          session.startTransaction();
+          //session.startTransaction();
           const opts = { session };
           let result=await executeTasksInSequence([
             removeSingleToDo(req.params.todoId,opts),
@@ -180,7 +180,7 @@ exports.deleteUser = async(req, res, next) => {
     try{
       await executeTransaction(async(session)=>{
         try{
-          session.startTransaction();
+          //session.startTransaction();
           const opts = { session };
           let userUpdateQuery={"_id":req.params.userId,"todos._id":req.params.todoId};
           let userUpdatePayload={$set:{"todos.$.title":req.body.title,"todos.$.completed":req.body.completed}}
@@ -237,7 +237,7 @@ exports.createToDo = async(req, res, next) => {
     try{
       await executeTransaction(async(session)=>{
         try{
-          session.startTransaction();
+          //session.startTransaction();
           const opts = { session };
           let payload = JSON.parse(JSON.stringify(req.body));
           payload.userId = req.params.userId;
@@ -279,7 +279,7 @@ try{
   //the error thrown from db.js will be caught in outer catch block of controller method.
   await executeTransaction(async(session)=>{
     try{
-      session.startTransaction();
+      //session.startTransaction();
       const opts = { session };
       let payload = JSON.parse(JSON.stringify(req.body))
       payload.userId = req.params.userId;
@@ -290,8 +290,8 @@ try{
         let err=new Error(`Some error occured creating post for ${req.params.userId}`);
         err.status=404;
         throw err;
-      }
-      else{
+    }
+    else{
         await session.commitTransaction();
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json({ message: `Post ${newPost[0]._id} has been created for user ${req.params.userId}`, result: updatedUser })
@@ -341,7 +341,7 @@ exports.deleteAllPostsOfUser = async(req, res, next) => {
   try{
     await executeTransaction(async(session)=>{
       try{
-        session.startTransaction();
+        //session.startTransaction();
         const opts = { session };
         let result=await executeTasksInSequence([
           removeAllPostsOfUser(req.params.userId,opts),
@@ -383,7 +383,7 @@ exports.deleteSinglePost = async(req, res, next) => {
   try{
     await executeTransaction(async(session)=>{
       try{
-        session.startTransaction();
+      //  session.startTransaction();
         const opts = { session };
         let result=await executeTasksInSequence([
           removeSinglePost(req.params.postId,opts),//remove post from posts collection
@@ -436,7 +436,7 @@ exports.createComment = async(req, res, next) => {
   try{
     await executeTransaction(async(session)=>{
       try{
-        session.startTransaction();
+      //  session.startTransaction();
         const opts = { session };
         let payload = JSON.parse(JSON.stringify(req.body));
         payload.postId = req.params.postId;
@@ -481,7 +481,7 @@ exports.deleteAllCommentsForAPPost = async(req, res, next) => {
   try{
     await executeTransaction(async(session)=>{
       try{
-        session.startTransaction();
+        //session.startTransaction();
         const opts = { session };
         let result=await executeTasksInSequence([
           removeAllCommentsOfPost(req.params.userId, req.params.postId,opts),

@@ -39,6 +39,7 @@ exports.validatorPlugin=(schema)=>{
 exports.executeTransaction=async(callback)=>{
   try{
   let session=await mongoose.startSession();
+  await session.startTransaction(transactionOptions);
   await callback(session);
 }
 catch(e){
