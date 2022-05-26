@@ -1,26 +1,28 @@
 const post = require('../models/postModel');
+const postServiceHandlers={};
 
-
-exports.createPost = (payload,opts) => {
+postServiceHandlers.createPost = (payload,opts) => {
     return post.postModel.create([payload],opts);
 }
 
-exports.removeAllPostsOfUser = (userId,opts) => {
+postServiceHandlers.removeAllPostsOfUser = (userId,opts) => {
   return post.postModel.remove({ "userId": userId},opts); //returns the deletedCount
 }
 
-exports.removeSinglePost = (postId,opts) => {
+postServiceHandlers.removeSinglePost = (postId,opts) => {
     return post.postModel.remove({"_id":postId},opts); //retuns the deletedCount
 }
 
-exports.getPost = (postId,opts) => {
+postServiceHandlers.getPost = (postId,opts) => {
     return post.postModel.findById(postId,opts);
 }
 
-exports.updatePost = (postId, payload,opts) => {
+postServiceHandlers.updatePost = (postId, payload,opts) => {
     return post.postModel.updateOne({"_id": postId },{$set:payload},opts);
 }
 
-exports.updatePostArray=(query,payload,opts)=>{
+postServiceHandlers.updatePostArray=(query,payload,opts)=>{
 return post.postModel.updateOne(query,payload,opts);
 }
+
+module.exports=postServiceHandlers;

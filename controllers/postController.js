@@ -1,12 +1,13 @@
-const { getPost, updatePost,updatePostArray } = require('../services/postService');
-const { removeSingleComment } = require('../services/commentService');
+const postServiceHandlers = require('../services/postService');
+const commentServiceHandlers = require('../services/commentService');
 const {executeTransaction}=require('../db');
 const { executeTasksInSequence,executeTasksInParallel } = require('../utility');
 
+const postControllerHandlers={};
 
-exports.getSinglePost = (req, res, next) => {
+postControllerHandlers.getSinglePost = (req, res, next) => {
   const opts={};
-  getPost(req.params.postId,opts).then(post => {
+  postServiceHandlers.getPost(req.params.postId,opts).then(post => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json({
       message: `Post ${req.params.postId} retrieved successfully`,
@@ -17,9 +18,9 @@ exports.getSinglePost = (req, res, next) => {
 
 }
 
-exports.updatePost =(req, res, next) => {
+postControllerHandlers.updatePost =(req, res, next) => {
   const opts={};
-  updatePost(req.params.postId, req.body,opts).then(result=>{
+  postServiceHandlers.updatePost(req.params.postId, req.body,opts).then(result=>{
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json({
       message: `Post ${req.params.postId} updated successfully`,
@@ -29,15 +30,15 @@ exports.updatePost =(req, res, next) => {
   .catch(err=>next(err))
 }
 
-exports.deleteSingleComment = async(req, res, next) => {
+postControllerHandlers.deleteSingleComment = async(req, res, next) => {
   try{
     await executeTransaction(async(session)=>{
       try{
         session.startTransaction();
         const opts = { session };
         let result=await executeTasksInSequence([
-          removeSingleComment(req.params.commentId,opts),
-          updatePostArray({"_id":req.params.postId},{$pull:{"comments":req.params.commentId}},opts)
+          commentServiceHandlers.removeSingleComment(req.params.commentId,opts),
+          postServiceHandlers.updatePostArray({"_id":req.params.postId},{$pull:{"comments":req.params.commentId}},opts)
         ]);
         const [comment,post]=result;
         if(comment.deletedCount<1 || post.modifiedCount<1){
@@ -69,3 +70,5 @@ exports.deleteSingleComment = async(req, res, next) => {
     return next(e);
   }
 }
+
+module.exports=postControllerHandlers;

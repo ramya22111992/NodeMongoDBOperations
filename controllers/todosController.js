@@ -1,9 +1,11 @@
 const todo=require('../models/todoModel');
-const {getToDo}=require('../services/todoService')
+const todoServiceHandlers=require('../services/todoService')
 
-exports.getToDo=(req,res,next)=>{
+const todoControllerHandlers={};
+
+todoControllerHandlers.getToDo=(req,res,next)=>{
   const opts={};
-    getToDo(req.params.todoId,opts).then(todo=>{
+    todoServiceHandlers.getToDo(req.params.todoId,opts).then(todo=>{
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json({
           message: `ToDo ${req.params.todoId} retrieved successfully`,
@@ -12,3 +14,5 @@ exports.getToDo=(req,res,next)=>{
     })
     .catch(err=>next(err))
 }
+
+module.exports=todoControllerHandlers;
