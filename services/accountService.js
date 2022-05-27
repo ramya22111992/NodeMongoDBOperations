@@ -12,7 +12,7 @@ accountServiceHandlers.changePassword=(user,oldPassword,newPassword)=>{
 }
 
 accountServiceHandlers.unlockUserAccount=(user)=>{
-  return user.resetAttempts();
+  return user.resetAttempts(); //not yet working/tested
 }
 
 module.exports=accountServiceHandlers;

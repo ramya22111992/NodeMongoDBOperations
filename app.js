@@ -13,15 +13,8 @@ const postRouter = require('./routes/postRouter');
 const userRouter = require('./routes/userRouter');
 const todoRouter = require('./routes/todoRouter');
 const accountRouter=require('./routes/accountRouter');
-const {connectToMongoDB}=require('./db');
-const authenticate=require('./authenticate');
-
-connectToMongoDB().then(response=>{
-console.log("Successfully connected to DB");
-})
-.catch(err=>{
-  console.log(err);
-})
+const authenticate=require('./authenticate'); //passport initialisation logic
+const db=require('./db'); //mongodb connection
 
 var app = express();
 

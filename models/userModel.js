@@ -3,6 +3,7 @@ const toDo = require('./todoModel');
 const comment=require('./commentModel');
 const validator=require('../db');
 const passportLocalMongoose=require('passport-local-mongoose');
+const moment=require('moment');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -26,6 +27,18 @@ const userSchema = new mongoose.Schema({
         message: props => `LastName must contain only alphabets.${props.value} does not contain only alphabets `
       }
 
+    }
+  },
+  dob:{
+    type:Date,
+    required:[true,"Date Of Birth is required"],
+    validate:{
+      validator:function(v){
+        let age = moment().diff(v, 'years',true);
+        console.log(age)
+        return age >=18 && age<=60;
+      },
+      message:props=>`${props.value} is invalid.User must be between 18-60 years(both inclusive)`
     }
   },
   email:{
@@ -107,11 +120,7 @@ else{
 userSchema.plugin(validator.validatorPlugin);
 userSchema.plugin(passportLocalMongoose,{
   usernameField:'email', //default is username.
-  selectFields:'email admin',
-  passwordValidator:passwordValidator,
-  limitAttempts:true, //login attempts are limited
-  maxAttempts:2, //user account is locked after 2 failed login attempts
-  unlockInterval:15*60*1000, //time in ms after which a user will be automatically unlocked,
-  attemptsField:'attempts'
+  selectFields:'email admin',//req.user object will contain _id,email and admin from user document
+  passwordValidator:passwordValidator //validates the password when a new user is registered
 })
 module.exports = mongoose.model('User', userSchema);

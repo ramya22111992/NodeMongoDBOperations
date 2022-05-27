@@ -19,6 +19,7 @@ accountControllerHandlers.registerUser=(req,res,next)=>{
 }
 
 accountControllerHandlers.resetUserAccount=async(req,res,next)=>{
+  //not yet tested/working
   try{
   let opts={};
   console.log(req.user);
